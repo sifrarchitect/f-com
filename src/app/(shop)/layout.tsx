@@ -1,10 +1,18 @@
+import { requireRole } from '@/lib/auth'
+import ShopSidebar from '@/components/shop/ShopSidebar'
+
 export const dynamic = 'force-dynamic'
 
-export default function ShopLayout({
+export default async function ShopLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  // Auth guard + sidebar will be added in Session 3
-  return <>{children}</>
+  const user = await requireRole('shop_owner', '/login')
+
+  return (
+    <ShopSidebar user={user}>
+      {children}
+    </ShopSidebar>
+  )
 }

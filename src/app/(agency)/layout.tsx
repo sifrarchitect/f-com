@@ -1,10 +1,18 @@
+import { requireRole } from '@/lib/auth'
+import AgencySidebar from '@/components/agency/AgencySidebar'
+
 export const dynamic = 'force-dynamic'
 
-export default function AgencyLayout({
+export default async function AgencyLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  // Auth guard + sidebar will be added in Session 3
-  return <>{children}</>
+  const user = await requireRole('agency_owner', '/login')
+
+  return (
+    <AgencySidebar user={user}>
+      {children}
+    </AgencySidebar>
+  )
 }

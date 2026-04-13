@@ -1,10 +1,18 @@
+import { requireRole } from '@/lib/auth'
+import AdminSidebar from '@/components/admin/AdminSidebar'
+
 export const dynamic = 'force-dynamic'
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  // Auth guard will be added in Session 3
-  return <>{children}</>
+  const user = await requireRole('super_admin', '/login')
+
+  return (
+    <AdminSidebar user={user}>
+      {children}
+    </AdminSidebar>
+  )
 }
