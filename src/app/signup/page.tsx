@@ -16,13 +16,20 @@ export default function SignUpPage() {
     setError(null)
 
     const formData = new FormData(e.currentTarget)
-    const result = await signUp(formData)
-
-    if (result?.error) {
-      setError(result.error)
-      setLoading(false)
-    } else {
-      setSuccess(true)
+    try {
+      const result = await signUp(formData)
+      if (result?.error) {
+        setError(result.error)
+        setLoading(false)
+      }
+      // On success, signUp redirects — no state update needed
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : ''
+      if (!message.includes('NEXT_REDIRECT')) {
+        setError('Something went wrong. Please try again.')
+        setLoading(false)
+      }
+      // NEXT_REDIRECT = navigating away, keep spinner
     }
   }
 
