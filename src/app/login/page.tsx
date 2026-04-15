@@ -14,10 +14,24 @@ export default function LoginPage() {
     setLoading(true)
     setError(null)
     const formData = new FormData(e.currentTarget)
-    const result = await login(formData)
-    if (result?.error) {
-      setError(result.error)
-      setLoading(false)
+    try {
+      const result = await login(formData)
+      // If we get here (no redirect), there's an error
+      if (result?.error) {
+        setError(result.error === 'Email not confirmed'
+          ? 'Please confirm your email first. Check your inbox for the verification link.'
+          : result.error
+        )
+      }
+    } catch (err: unknown) {
+      // NEXT_REDIRECT throws — this means login succeeded and redirect is happening
+      // Don't reset loading — the page is navigating away
+      const message = err instanceof Error ? err.message : ''
+      if (!message.includes('NEXT_REDIRECT')) {
+        setError('Something went wrong. Please try again.')
+        setLoading(false)
+      }
+      // If it IS a redirect error, keep spinner (navigation in progress)
     }
   }
 
