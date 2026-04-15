@@ -51,7 +51,7 @@ export default async function PlansPage() {
               </div>
               <div className="mb-4">
                 <span className="text-3xl font-bold">{formatBDT(plan.price)}</span>
-                <span className="text-muted-foreground text-sm">/মাস</span>
+                <span className="text-muted-foreground text-sm">/mo</span>
               </div>
               {plan.features.length > 0 && (
                 <ul className="space-y-2 flex-1 mb-4">

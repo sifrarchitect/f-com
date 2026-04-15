@@ -15,10 +15,10 @@ async function getOrder(orderNumber: string) {
 }
 
 const statusSteps = [
-  { key: 'pending', label: 'অর্ডার নেওয়া হয়েছে', icon: Clock },
-  { key: 'processing', label: 'প্রস্তুত হচ্ছে', icon: Package },
-  { key: 'shipped', label: 'কুরিয়ারে দেওয়া হয়েছে', icon: Truck },
-  { key: 'delivered', label: 'ডেলিভারি হয়েছে', icon: Check },
+  { key: 'pending', label: 'Order Received', icon: Clock },
+  { key: 'processing', label: 'Processing', icon: Package },
+  { key: 'shipped', label: 'Shipped to Courier', icon: Truck },
+  { key: 'delivered', label: 'Delivered', icon: Check },
 ]
 
 function getStepIndex(status: string) {
@@ -36,14 +36,14 @@ export default async function TrackOrderPage({ params }: { params: Promise<{ ord
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-md">
-        <h1 className="text-2xl font-bold tracking-tight text-center mb-2">অর্ডার ট্র্যাক করুন</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-center mb-2">Track Your Order</h1>
         <p className="text-center text-sm text-muted-foreground font-mono mb-8">{order.order_number}</p>
 
         {order.delivery_status === 'cancelled' ? (
           <div className="fm-card p-6 text-center">
             <X className="h-12 w-12 text-fm-destructive mx-auto mb-3" />
-            <p className="text-lg font-semibold text-fm-destructive">অর্ডার বাতিল</p>
-            <p className="text-sm text-muted-foreground mt-2">এই অর্ডারটি বাতিল করা হয়েছে।</p>
+            <p className="text-lg font-semibold text-fm-destructive">Order Cancelled</p>
+            <p className="text-sm text-muted-foreground mt-2">This order has been cancelled.</p>
           </div>
         ) : (
           <div className="fm-card p-6">
@@ -82,21 +82,21 @@ export default async function TrackOrderPage({ params }: { params: Promise<{ ord
 
         <div className="fm-card p-5 mt-4 space-y-2 text-sm">
           <div className="flex justify-between">
-            <span className="text-muted-foreground">কাস্টমার</span>
+            <span className="text-muted-foreground">Customer</span>
             <span>{order.customer_name}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-muted-foreground">মোট</span>
+            <span className="text-muted-foreground">Total</span>
             <span className="font-bold">{formatBDT(order.total_price || 0)}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-muted-foreground">পেমেন্ট</span>
+            <span className="text-muted-foreground">Payment</span>
             <span className={`inline-flex px-2 py-0.5 rounded text-xs font-medium ${
               order.payment_status === 'verified' ? 'fm-badge-success' : 'fm-badge-warning'
             }`}>{order.payment_status}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-muted-foreground">তারিখ</span>
+            <span className="text-muted-foreground">Date</span>
             <span className="text-xs">{formatDate(order.created_at || '')}</span>
           </div>
         </div>

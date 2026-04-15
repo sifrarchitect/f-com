@@ -5,7 +5,10 @@
 
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { getRoleDashboard } from '@/lib/utils'
 import type { UserRole, UserAppMetadata } from '@/types/database'
+
+export { getRoleDashboard }
 
 /**
  * Get the current authenticated user with role info.
@@ -52,21 +55,7 @@ export async function requireRole(requiredRole: UserRole, redirectTo = '/login')
   return user
 }
 
-/**
- * Get the dashboard URL for a given role.
- */
-export function getRoleDashboard(role: UserRole | null): string {
-  switch (role) {
-    case 'super_admin':
-      return '/admin'
-    case 'agency_owner':
-      return '/agency'
-    case 'shop_owner':
-      return '/dashboard'
-    default:
-      return '/login'
-  }
-}
+
 
 /**
  * Check if user has one of the allowed roles.

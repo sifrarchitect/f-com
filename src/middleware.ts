@@ -37,6 +37,12 @@ export async function middleware(request: NextRequest) {
   // Refresh session (important for auth)
   await supabase.auth.getUser()
 
+  // 0. Local development — bypass all subdomain routing
+  //    Access everything via localhost:3000 + direct paths
+  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+    return response
+  }
+
   // 1. Super Admin panel: admin.fmanager.com → rewrite to /admin/*
   if (hostname === `admin.${APP_DOMAIN}`) {
     url.pathname = `/admin${url.pathname}`

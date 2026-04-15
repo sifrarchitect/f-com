@@ -13,8 +13,8 @@ export default function Footer() {
           <div className="md:col-span-2">
             <p className="text-xl font-bold tracking-tight mb-3">F·Manager</p>
             <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
-              Bangladesh-এর সবচেয়ে শক্তিশালী F-Commerce Platform। 
-              আপনার Facebook/Instagram ব্যবসা ম্যানেজ করুন এক জায়গা থেকে।
+              Bangladesh&apos;s most powerful F-Commerce platform.
+              Manage your Facebook &amp; Instagram business from one place.
             </p>
           </div>
 
@@ -22,9 +22,9 @@ export default function Footer() {
           <div>
             <h4 className="text-sm font-semibold mb-4">Platform</h4>
             <ul className="space-y-2.5">
-              <li><a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">ফিচার</a></li>
-              <li><a href="#pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">প্রাইসিং</a></li>
-              <li><a href="#how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors">কিভাবে কাজ করে</a></li>
+              <li><a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Features</a></li>
+              <li><a href="#pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Pricing</a></li>
+              <li><a href="#how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors">How It Works</a></li>
             </ul>
           </div>
 

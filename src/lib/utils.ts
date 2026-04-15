@@ -12,7 +12,7 @@ export function cn(...inputs: ClassValue[]) {
  * Format currency in BDT (Bangladeshi Taka)
  */
 export function formatBDT(amount: number): string {
-  return `৳${amount.toLocaleString('en-BD')}`
+  return `BDT ${amount.toLocaleString('en-BD')}`
 }
 
 /**
@@ -138,4 +138,21 @@ export function getStoreUrl(agencySlug: string, shopSlug: string): string {
  */
 export function sanitizeSlug(slug: string): string {
   return slug.replace(/[^a-z0-9-]/g, '')
+}
+
+/**
+ * Get the dashboard URL for a given role.
+ * Pure function — safe for both client and server.
+ */
+export function getRoleDashboard(role: string | null): string {
+  switch (role) {
+    case 'super_admin':
+      return '/admin'
+    case 'agency_owner':
+      return '/agency'
+    case 'shop_owner':
+      return '/dashboard'
+    default:
+      return '/login'
+  }
 }

@@ -47,7 +47,7 @@ export default async function AgencyDashboard() {
     { label: 'Total Orders', value: stats.totalOrders.toLocaleString(), sub: 'across all shops', icon: ShoppingCart },
     { label: 'Revenue', value: formatBDT(stats.totalRevenue), sub: 'total earnings', icon: TrendingUp, color: 'text-fm-success' },
     { label: 'Pending Payments', value: stats.pendingPayments, sub: 'awaiting verification', icon: AlertTriangle, color: stats.pendingPayments > 0 ? 'text-fm-warning' : 'text-foreground' },
-    { label: 'Platform Fee', value: formatBDT(stats.activeShops * 100), sub: `${stats.activeShops} × ৳100/mo`, icon: Receipt },
+    { label: 'Platform Fee', value: formatBDT(stats.activeShops * 100), sub: `${stats.activeShops} × BDT 100/mo`, icon: Receipt },
   ]
 
   // Recent orders (last 8)

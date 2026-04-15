@@ -41,7 +41,7 @@ export default async function AgencyBillingPage() {
         </div>
         <div className="fm-card p-5">
           <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Rate</p>
-          <p className="text-2xl font-bold mt-1">৳১০০</p>
+          <p className="text-2xl font-bold mt-1">BDT 100</p>
           <p className="text-xs text-muted-foreground mt-1">per active shop / month</p>
         </div>
       </div>

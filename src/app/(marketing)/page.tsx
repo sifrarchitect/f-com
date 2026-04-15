@@ -56,7 +56,7 @@ function Hero() {
           className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/60 bg-card/50 backdrop-blur-sm text-xs font-medium text-muted-foreground mb-8"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-fm-success animate-pulse" />
-          Bangladesh-এর #1 F-Commerce Platform
+          Bangladesh's #1 F-Commerce Platform
         </motion.div>
 
         {/* Headline */}
@@ -66,9 +66,9 @@ function Hero() {
           transition={{ duration: 0.7, delay: 0.2 }}
           className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-6"
         >
-          আপনার Facebook
+          Your Facebook Business,
           <br />
-          <span className="text-muted-foreground">ব্যবসা হোক</span>{' '}
+          <span className="text-muted-foreground">Made</span>{' '}
           <span className="bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">
             Professional
           </span>
@@ -81,8 +81,8 @@ function Hero() {
           transition={{ duration: 0.7, delay: 0.4 }}
           className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
         >
-          অর্ডার ম্যানেজমেন্ট, পেমেন্ট ভেরিফিকেশন, কুরিয়ার ইন্টিগ্রেশন — 
-          সব এক জায়গায়। bKash/Nagad অটো-ভেরিফাই। Steadfast কুরিয়ার ওয়ান-ক্লিক।
+          Order management, payment verification, courier integration — 
+          all in one place. Auto-verify bKash/Nagad. One-click Steadfast shipping.
         </motion.p>
 
         {/* CTAs */}
@@ -96,14 +96,14 @@ function Hero() {
             href="/login"
             className="group px-6 py-3 bg-primary text-primary-foreground text-sm font-medium rounded-md hover:bg-primary/90 transition-all flex items-center gap-2"
           >
-            ফ্রি শুরু করুন
+            Start Free
             <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
           </Link>
           <a
             href="#features"
             className="px-6 py-3 border border-border text-sm font-medium rounded-md hover:bg-accent transition-colors"
           >
-            ফিচার দেখুন
+            View Features
           </a>
         </motion.div>
       </div>
@@ -116,14 +116,14 @@ function Hero() {
 // ============================================================
 function SocialProofTicker() {
   const items = [
-    '১০০০+ অ্যাক্টিভ সেলার',
-    'bKash/Nagad অটো-ভেরিফাই',
-    'Steadfast কুরিয়ার ইন্টিগ্রেশন',
-    'ফ্রি SSL সার্টিফিকেট',
-    '২৪/৭ সাপোর্ট',
-    'কাস্টম ডোমেইন সাপোর্ট',
-    '১০০+ এজেন্সি',
-    'বাংলাদেশে তৈরি 🇧🇩',
+    '1000+ Active Sellers',
+    'bKash/Nagad Auto-Verify',
+    'Steadfast Courier Integration',
+    'Free SSL Certificate',
+    '24/7 Support',
+    'Custom Domain Support',
+    '100+ Agencies',
+    'Built in Bangladesh 🇧🇩',
   ]
 
   return (
@@ -146,18 +146,18 @@ function ForSellers() {
   const cards = [
     {
       icon: ShoppingCart,
-      title: 'অর্ডার ম্যানেজমেন্ট',
-      description: 'Facebook পেজ থেকে অর্ডার নিন, ট্র্যাক করুন, ডেলিভারি দিন — সব এক ড্যাশবোর্ডে',
+      title: 'Order Management',
+      description: 'Receive orders from Facebook, track them, manage delivery — all from one dashboard',
     },
     {
       icon: CreditCard,
-      title: 'পেমেন্ট অটো-ভেরিফাই',
-      description: 'bKash/Nagad SMS অটোমেটিক ম্যাচ করে। ভুয়া TrxID আর নয়',
+      title: 'Auto Payment Verify',
+      description: 'Automatically match bKash/Nagad SMS. No more fake TrxIDs',
     },
     {
       icon: Truck,
-      title: 'Steadfast ওয়ান-ক্লিক',
-      description: 'একটা ক্লিকে Steadfast কুরিয়ারে পাঠান। ট্র্যাকিং অটো-আপডেট',
+      title: 'Steadfast One-Click',
+      description: 'Send to Steadfast courier with one click. Auto-update tracking',
     },
   ]
 
@@ -166,11 +166,11 @@ function ForSellers() {
       <div className="max-w-6xl mx-auto">
         <motion.div variants={fadeUp} className="text-center mb-16">
           <p className="text-sm font-medium text-muted-foreground mb-3 uppercase tracking-wider">
-            🛍️ সেলারদের জন্য
+            🛍️ For Sellers
           </p>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-            আপনার F-Commerce ব্যবসা, <br className="hidden md:block" />
-            <span className="text-muted-foreground">সুপারচার্জড</span>
+            Your F-Commerce Business, <br className="hidden md:block" />
+            <span className="text-muted-foreground">Supercharged</span>
           </h2>
         </motion.div>
 
@@ -203,18 +203,18 @@ function ForAgencies() {
   const cards = [
     {
       icon: Palette,
-      title: 'হোয়াইট-লেবেল',
-      description: 'আপনার নিজের ব্র্যান্ড, লোগো, কালার, কাস্টম ডোমেইন — সবকিছু আপনার',
+      title: 'White-Label',
+      description: 'Your own brand, logo, colors, custom domain — everything is yours',
     },
     {
       icon: Users,
-      title: 'সেলার ম্যানেজমেন্ট',
-      description: 'সেলার যোগ করুন, প্ল্যান তৈরি করুন, তাদের অর্ডার ও রেভিনিউ ট্র্যাক করুন',
+      title: 'Seller Management',
+      description: 'Add sellers, create plans, track their orders and revenue',
     },
     {
       icon: BarChart3,
-      title: 'রেভিনিউ ড্যাশবোর্ড',
-      description: 'সব সেলারের ক্রস-শপ অর্ডার, পেমেন্ট, ও রেভিনিউ দেখুন এক জায়গায়',
+      title: 'Revenue Dashboard',
+      description: 'View cross-shop orders, payments, and revenue from all sellers in one place',
     },
   ]
 
@@ -223,11 +223,11 @@ function ForAgencies() {
       <div className="max-w-6xl mx-auto">
         <motion.div variants={fadeUp} className="text-center mb-16">
           <p className="text-sm font-medium text-muted-foreground mb-3 uppercase tracking-wider">
-            🏢 এজেন্সিদের জন্য
+            🏢 For Agencies
           </p>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-            আপনার নিজের SaaS প্ল্যাটফর্ম, <br className="hidden md:block" />
-            <span className="text-muted-foreground">আপনার ব্র্যান্ডে</span>
+            Your Own SaaS Platform, <br className="hidden md:block" />
+            <span className="text-muted-foreground">Under Your Brand</span>
           </h2>
         </motion.div>
 
@@ -258,12 +258,12 @@ function ForAgencies() {
 // ============================================================
 function FeaturesGrid() {
   const features = [
-    { icon: ShoppingCart, title: 'অর্ডার ম্যানেজমেন্ট', desc: 'ফিল্টার, সার্চ, বাল্ক অ্যাকশন, CSV এক্সপোর্ট' },
-    { icon: CreditCard, title: 'পেমেন্ট ভেরিফিকেশন', desc: 'bKash/Nagad/Rocket SMS অটো-ম্যাচ' },
-    { icon: Truck, title: 'কুরিয়ার ইন্টিগ্রেশন', desc: 'Steadfast ওয়ান-ক্লিক + রিয়েলটাইম ট্র্যাকিং' },
-    { icon: Store, title: 'স্টোরফ্রন্ট', desc: 'মোবাইল-ফার্স্ট প্রোডাক্ট পেজ + চেকআউট' },
-    { icon: Globe, title: 'কাস্টম ডোমেইন', desc: 'আপনার নিজের ডোমেইনে চালান' },
-    { icon: Shield, title: 'ব্ল্যাকলিস্ট', desc: 'ভুয়া কাস্টমার অটো-ব্লক' },
+    { icon: ShoppingCart, title: 'Order Management', desc: 'Filter, search, bulk actions, CSV export' },
+    { icon: CreditCard, title: 'Payment Verification', desc: 'bKash/Nagad/Rocket SMS auto-match' },
+    { icon: Truck, title: 'Courier Integration', desc: 'Steadfast one-click + real-time tracking' },
+    { icon: Store, title: 'Storefront', desc: 'Mobile-first product pages + checkout' },
+    { icon: Globe, title: 'Custom Domain', desc: 'Run on your own domain' },
+    { icon: Shield, title: 'Blacklist', desc: 'Auto-block fraudulent customers' },
   ]
 
   return (
@@ -271,10 +271,10 @@ function FeaturesGrid() {
       <div className="max-w-6xl mx-auto">
         <motion.div variants={fadeUp} className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-            সব ফিচার এক প্ল্যাটফর্মে
+            All Features, One Platform
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            আপনার F-Commerce ব্যবসার জন্য যা যা দরকার — সব আছে F-Manager-এ
+            Everything your F-Commerce business needs — all in F-Manager
           </p>
         </motion.div>
 
@@ -303,18 +303,18 @@ function HowItWorks() {
   const steps = [
     {
       step: '01',
-      title: 'সাইন আপ করুন',
-      description: 'এজেন্সি অ্যাকাউন্ট তৈরি করুন, আপনার ব্র্যান্ড সেটআপ করুন',
+      title: 'Sign Up',
+      description: 'Create an agency account, set up your brand',
     },
     {
       step: '02',
-      title: 'সেলার যোগ করুন',
-      description: 'Facebook সেলারদের ইনভাইট করুন, তাদের জন্য স্টোর তৈরি করুন',
+      title: 'Add Sellers',
+      description: 'Invite Facebook sellers, create stores for them',
     },
     {
       step: '03',
-      title: 'ইনকাম শুরু',
-      description: 'সেলাররা অর্ডার পায়, আপনি মাসিক সাবস্ক্রিপশন পান',
+      title: 'Start Earning',
+      description: 'Sellers get orders, you earn monthly subscriptions',
     },
   ]
 
@@ -323,10 +323,10 @@ function HowItWorks() {
       <div className="max-w-4xl mx-auto">
         <motion.div variants={fadeUp} className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-            কিভাবে কাজ করে?
+            How It Works
           </h2>
           <p className="text-muted-foreground">
-            মাত্র ৩ ধাপে শুরু করুন
+            Get started in just 3 steps
           </p>
         </motion.div>
 
@@ -358,10 +358,10 @@ function Pricing() {
       <div className="max-w-4xl mx-auto">
         <motion.div variants={fadeUp} className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-            সিম্পল প্রাইসিং
+            Simple Pricing
           </h2>
           <p className="text-muted-foreground">
-            কোনো হিডেন চার্জ নেই
+            No hidden charges
           </p>
         </motion.div>
 
@@ -372,22 +372,22 @@ function Pricing() {
             className="p-8 rounded-xl border border-border bg-card"
           >
             <p className="text-sm font-medium text-muted-foreground mb-1 uppercase tracking-wider">
-              এজেন্সি
+              Agency
             </p>
             <div className="flex items-baseline gap-1 mb-4">
-              <span className="text-4xl font-bold">৳১০০</span>
-              <span className="text-muted-foreground">/সেলার/মাস</span>
+              <span className="text-4xl font-bold">100 BDT</span>
+              <span className="text-muted-foreground">/seller/month</span>
             </div>
             <p className="text-sm text-muted-foreground mb-6">
-              Team Sifr-কে পে করবেন প্রতি অ্যাক্টিভ সেলারের জন্য। আপনি সেলারদের থেকে যা ইচ্ছা চার্জ করতে পারেন।
+              Pay Team Sifr per active seller. Charge your sellers whatever you want.
             </p>
             <ul className="space-y-3 mb-8">
               {[
-                'হোয়াইট-লেবেল ব্র্যান্ডিং',
-                'আনলিমিটেড সেলার',
-                'কাস্টম ডোমেইন',
-                'ক্রস-শপ ড্যাশবোর্ড',
-                'কাস্টম প্রাইসিং প্ল্যান',
+                'White-label branding',
+                'Unlimited sellers',
+                'Custom domain',
+                'Cross-shop dashboard',
+                'Custom pricing plans',
               ].map((f) => (
                 <li key={f} className="flex items-center gap-2 text-sm">
                   <Check className="h-4 w-4 text-fm-success shrink-0" />
@@ -396,10 +396,10 @@ function Pricing() {
               ))}
             </ul>
             <Link
-              href="/login"
+              href="/signup"
               className="block w-full py-3 text-center bg-primary text-primary-foreground rounded-md text-sm font-medium hover:bg-primary/90 transition-colors"
             >
-              এজেন্সি হিসেবে শুরু করুন
+              Start as Agency
             </Link>
           </motion.div>
 
@@ -409,22 +409,22 @@ function Pricing() {
             className="p-8 rounded-xl border border-border/50 bg-background"
           >
             <p className="text-sm font-medium text-muted-foreground mb-1 uppercase tracking-wider">
-              সেলার
+              Seller
             </p>
             <div className="flex items-baseline gap-1 mb-4">
-              <span className="text-4xl font-bold text-muted-foreground">এজেন্সি</span>
-              <span className="text-muted-foreground">নির্ধারিত</span>
+              <span className="text-4xl font-bold text-muted-foreground">Agency</span>
+              <span className="text-muted-foreground">defined</span>
             </div>
             <p className="text-sm text-muted-foreground mb-6">
-              আপনার এজেন্সি যে প্ল্যান দেয়, সেটাই। কোনো এক্সট্রা চার্জ F-Manager-এর পক্ষ থেকে নেই।
+              Your agency sets the plan. No extra charges from F-Manager.
             </p>
             <ul className="space-y-3 mb-8">
               {[
-                'প্রোডাক্ট ম্যানেজমেন্ট',
-                'অর্ডার ড্যাশবোর্ড',
-                'পেমেন্ট ভেরিফিকেশন',
-                'Steadfast ইন্টিগ্রেশন',
-                'কাস্টমার স্টোরফ্রন্ট',
+                'Product management',
+                'Order dashboard',
+                'Payment verification',
+                'Steadfast integration',
+                'Customer storefront',
               ].map((f) => (
                 <li key={f} className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Check className="h-4 w-4 text-muted-foreground/50 shrink-0" />
@@ -433,10 +433,10 @@ function Pricing() {
               ))}
             </ul>
             <Link
-              href="/login"
+              href="/signup"
               className="block w-full py-3 text-center border border-border rounded-md text-sm font-medium hover:bg-accent transition-colors"
             >
-              সেলার হিসেবে জয়েন করুন
+              Join as Seller
             </Link>
           </motion.div>
         </div>
@@ -454,16 +454,16 @@ function CtaSection() {
       <div className="max-w-3xl mx-auto text-center">
         <motion.div variants={fadeUp}>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">
-            আজই শুরু করুন
+            Get Started Today
           </h2>
           <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
-            আপনার F-Commerce ব্যবসা পরের লেভেলে নিয়ে যান। ফ্রি সেটআপ, কোনো ক্রেডিট কার্ড লাগবে না।
+            Take your F-Commerce business to the next level. Free setup, no credit card required.
           </p>
           <Link
-            href="/login"
+            href="/signup"
             className="inline-flex items-center gap-2 px-8 py-3.5 bg-primary text-primary-foreground text-sm font-medium rounded-md hover:bg-primary/90 transition-all group"
           >
-            ফ্রি অ্যাকাউন্ট তৈরি করুন
+            Create Free Account
             <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </motion.div>

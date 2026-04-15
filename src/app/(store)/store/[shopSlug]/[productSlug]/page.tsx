@@ -85,7 +85,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
               <h1 className="text-2xl md:text-3xl font-bold tracking-tight">{product.name}</h1>
               <div className="flex items-baseline gap-3 mt-3">
                 <span className="text-3xl font-bold" style={{ color: shop.primary_color }}>
-                  ৳{product.base_price.toLocaleString()}
+                  BDT {product.base_price.toLocaleString()}
                 </span>
               </div>
             </div>
@@ -94,12 +94,12 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             <div>
               {inStock ? (
                 <span className="inline-flex items-center gap-1.5 text-sm text-fm-success">
-                  <span className="w-1.5 h-1.5 rounded-full bg-fm-success" /> স্টকে আছে
-                  {product.simple_stock < 10 && ` (মাত্র ${product.simple_stock}টি)`}
+                  <span className="w-1.5 h-1.5 rounded-full bg-fm-success" /> In Stock
+                  {product.simple_stock < 10 && ` (Only ${product.simple_stock} left)`}
                 </span>
               ) : (
                 <span className="inline-flex items-center gap-1.5 text-sm text-fm-destructive">
-                  <span className="w-1.5 h-1.5 rounded-full bg-fm-destructive" /> স্টক শেষ
+                  <span className="w-1.5 h-1.5 rounded-full bg-fm-destructive" /> Out of Stock
                 </span>
               )}
             </div>
@@ -115,15 +115,15 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             <div className="space-y-2 p-4 rounded-lg bg-card border border-border">
               <div className="flex items-center gap-2 text-sm">
                 <Truck className="h-4 w-4 text-muted-foreground" />
-                <span>ঢাকার ভিতরে: ৳{shop.delivery_fee_inside_dhaka}</span>
+                <span>Inside Dhaka: BDT {shop.delivery_fee_inside_dhaka}</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <Truck className="h-4 w-4 text-muted-foreground" />
-                <span>ঢাকার বাইরে: ৳{shop.delivery_fee_outside_dhaka}</span>
+                <span>Outside Dhaka: BDT {shop.delivery_fee_outside_dhaka}</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Shield className="h-4 w-4" />
-                <span>নিরাপদ পেমেন্ট</span>
+                <span>Secure Payment</span>
               </div>
             </div>
 

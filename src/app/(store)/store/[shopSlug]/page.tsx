@@ -88,8 +88,8 @@ export default async function StoreHomePage({ params }: { params: Promise<{ shop
         {products.length === 0 ? (
           <div className="text-center py-20">
             <ShoppingBag className="h-12 w-12 text-muted-foreground/20 mx-auto mb-4" />
-            <p className="text-muted-foreground">কোনো প্রোডাক্ট নেই</p>
-            <p className="text-xs text-muted-foreground/60 mt-1">এই স্টোরে এখনো কোনো প্রোডাক্ট যোগ করা হয়নি</p>
+            <p className="text-muted-foreground">No products available</p>
+            <p className="text-xs text-muted-foreground/60 mt-1">This store hasn&apos;t added any products yet</p>
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
@@ -115,13 +115,13 @@ export default async function StoreHomePage({ params }: { params: Promise<{ shop
                 <div className="p-3 md:p-4">
                   <h3 className="text-sm font-medium truncate">{product.name}</h3>
                   <p className="text-lg font-bold mt-1" style={{ color: shop.primary_color }}>
-                    ৳{product.base_price.toLocaleString()}
+                    BDT {product.base_price.toLocaleString()}
                   </p>
                   {product.simple_stock < 5 && product.simple_stock > 0 && (
-                    <p className="text-xs text-fm-warning mt-1">মাত্র {product.simple_stock}টি বাকি!</p>
+                    <p className="text-xs text-fm-warning mt-1">Only {product.simple_stock} left!</p>
                   )}
                   {product.simple_stock <= 0 && (
-                    <p className="text-xs text-fm-destructive mt-1">স্টক শেষ</p>
+                    <p className="text-xs text-fm-destructive mt-1">Out of stock</p>
                   )}
                 </div>
               </Link>

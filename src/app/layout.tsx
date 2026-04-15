@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     template: '%s | F-Manager',
   },
   description:
-    'Bangladesh-এর সবচেয়ে শক্তিশালী F-Commerce Platform। Messenger chaos থেকে professional online store — মাত্র কয়েক মিনিটে।',
+    'Bangladesh\'s most powerful F-Commerce platform. From Messenger chaos to professional online store — in minutes.',
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://fmanager.com'),
   openGraph: {
     title: 'F-Manager — Bangladesh\'s F-Commerce Platform',
