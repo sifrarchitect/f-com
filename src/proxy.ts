@@ -25,15 +25,23 @@ interface AgencyData {
 }
 
 export async function proxy(request: NextRequest) {
-  const response = NextResponse.next()
   const hostname = request.headers.get('host')?.split(':')[0] || ''
   const url = request.nextUrl.clone()
 
+  // ─── Guard: missing env vars → pass through silently ────────────────────
+  // Without Supabase creds, let pages handle their own auth rather than crash
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (!supabaseUrl || !supabaseAnonKey) {
+    return NextResponse.next()
+  }
+
+  const response = NextResponse.next()
+
   // Build a Supabase client that works in the proxy context
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
+  let supabase
+  try {
+    supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
       cookies: {
         getAll() {
           return request.cookies.getAll()
@@ -45,8 +53,11 @@ export async function proxy(request: NextRequest) {
           )
         },
       },
-    }
-  )
+    })
+  } catch {
+    // Client creation failed — pass through safely
+    return NextResponse.next()
+  }
 
   // Refresh session and get role
   let role: string | undefined
