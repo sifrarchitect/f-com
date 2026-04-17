@@ -70,9 +70,11 @@ export default function ShopOnboarding({
       >
         <div className="bg-card border border-border rounded-xl shadow-2xl overflow-hidden">
           {/* Header — always visible */}
-          <button
+          <div
             onClick={() => setExpanded(!expanded)}
-            className="w-full flex items-center justify-between p-4 hover:bg-accent/30 transition-colors"
+            role="button"
+            tabIndex={0}
+            className="w-full flex items-center justify-between p-4 hover:bg-accent/30 transition-colors cursor-pointer"
           >
             <div className="flex items-center gap-3">
               <div className="relative w-8 h-8">
@@ -106,11 +108,11 @@ export default function ShopOnboarding({
             </div>
             <button
               onClick={(e) => { e.stopPropagation(); onDismiss() }}
-              className="p-1 rounded hover:bg-accent transition-colors text-muted-foreground"
+              className="p-1 rounded hover:bg-accent transition-colors text-muted-foreground z-10"
             >
               <X className="h-3.5 w-3.5" />
             </button>
-          </button>
+          </div>
 
           {/* Expanded steps */}
           {expanded && (

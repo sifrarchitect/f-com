@@ -11,6 +11,7 @@ import {
   CreditCard,
   Receipt,
   Sparkles,
+  UserCircle,
 } from 'lucide-react'
 import type { AuthUser } from '@/lib/auth'
 
@@ -47,6 +48,7 @@ export default function AgencySidebar({ user, children }: AgencySidebarProps) {
             { label: 'Branding', href: '/agency/settings/branding', icon: <Palette className="w-4 h-4" /> },
             { label: 'Plans', href: '/agency/settings/plans', icon: <Sparkles className="w-4 h-4" /> },
             { label: 'Billing', href: '/agency/billing', icon: <Receipt className="w-4 h-4" /> },
+            { label: 'Account', href: '/agency/settings/account', icon: <UserCircle className="w-4 h-4" /> },
           ],
         },
       ]}

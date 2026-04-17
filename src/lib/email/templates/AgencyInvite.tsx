@@ -7,6 +7,7 @@ import * as React from 'react'
 interface AgencyInviteProps {
   agencyName: string
   ownerName?: string
+  tempPassword?: string
   slug: string
   loginUrl: string
 }
@@ -14,6 +15,7 @@ interface AgencyInviteProps {
 export default function AgencyInvite({
   agencyName = 'Agency Name',
   ownerName = 'Admin',
+  tempPassword,
   slug = 'my-agency',
   loginUrl = 'https://my-agency.fmanager.com/login',
 }: AgencyInviteProps) {
@@ -39,11 +41,12 @@ export default function AgencyInvite({
             <Text style={detail}><strong>Agency:</strong> {agencyName}</Text>
             <Text style={detail}><strong>Subdomain:</strong> {slug}.fmanager.com</Text>
             <Text style={detail}><strong>Panel URL:</strong> https://{slug}.fmanager.com</Text>
+            {tempPassword && <Text style={detail}><strong>Temporary Password:</strong> {tempPassword}</Text>}
           </Section>
 
           <Section style={card}>
             <Text style={cardLabel}>Next Steps</Text>
-            <Text style={step}>1. Login and set your password</Text>
+            <Text style={step}>1. Login and change your password</Text>
             <Text style={step}>2. Upload your logo and set your brand color</Text>
             <Text style={step}>3. Create pricing plans for your sellers</Text>
             <Text style={step}>4. Invite your first seller</Text>

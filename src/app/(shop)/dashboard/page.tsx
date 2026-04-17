@@ -6,6 +6,8 @@ import Link from 'next/link'
 import {
   ShoppingCart, Package, TrendingUp, CreditCard, AlertTriangle, Truck,
 } from 'lucide-react'
+import { AdminRevenueChart as RevenueChart } from '@/components/charts/AdminRevenueChart'
+import { AnimatedCounter } from '@/components/ui/AnimatedCounter'
 
 async function getShopStats(shopId: string) {
   const supabase = await createClient()
@@ -27,7 +29,20 @@ async function getShopStats(shopId: string) {
     .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
     .slice(0, 8)
 
-  return { orders, products, totalRevenue, pendingOrders, verifiedPayments, lowStock, recentOrders }
+  // Generate 7-day revenue trend
+  const last7Days = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date()
+    d.setDate(d.getDate() - (6 - i))
+    return { date: d.toISOString().split('T')[0].slice(5), revenue: 0, fullDate: d.toISOString().split('T')[0] }
+  })
+
+  orders.forEach((o) => {
+    const dateStr = (o.created_at as string).split('T')[0]
+    const day = last7Days.find((d) => d.fullDate === dateStr)
+    if (day) day.revenue += (o.total_price || 0)
+  })
+
+  return { orders, products, totalRevenue, pendingOrders, verifiedPayments, lowStock, recentOrders, revenueChartData: last7Days }
 }
 
 export default async function ShopDashboard() {
@@ -38,8 +53,8 @@ export default async function ShopDashboard() {
 
   const kpiCards = [
     { label: 'Total Orders', value: stats.orders.length, sub: `${stats.pendingOrders} pending`, icon: ShoppingCart },
-    { label: 'Products', value: stats.products.length, sub: `${stats.products.filter(p => p.is_active).length} active`, icon: Package },
-    { label: 'Revenue', value: formatBDT(stats.totalRevenue), sub: 'all time', icon: TrendingUp, color: 'text-fm-success' },
+    { label: 'Products', value: stats.products.length, sub: `${stats.products.filter((p) => p.is_active).length} active`, icon: Package },
+    { label: 'Revenue', value: stats.totalRevenue, sub: 'all time', icon: TrendingUp, color: 'text-fm-success' },
     { label: 'Verified Payments', value: stats.verifiedPayments, sub: `of ${stats.orders.length} orders`, icon: CreditCard },
     { label: 'Pending Delivery', value: stats.pendingOrders, sub: 'to process', icon: Truck, color: stats.pendingOrders > 0 ? 'text-fm-warning' : 'text-foreground' },
     { label: 'Low Stock', value: stats.lowStock.length, sub: 'items below 5', icon: AlertTriangle, color: stats.lowStock.length > 0 ? 'text-fm-destructive' : 'text-foreground' },
@@ -73,7 +88,17 @@ export default async function ShopDashboard() {
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{card.label}</p>
-                <p className={`text-2xl font-bold mt-1 ${card.color || 'text-foreground'}`}>{card.value}</p>
+                <div className={`text-2xl font-bold mt-1 ${card.color || 'text-foreground'}`}>
+                  {typeof card.value === 'number' ? (
+                    <AnimatedCounter 
+                      value={card.value} 
+                      type={card.label === 'Revenue' ? 'currency' : 'number'}
+                      delay={200}
+                    />
+                  ) : (
+                    card.value
+                  )}
+                </div>
                 <p className="text-xs text-muted-foreground mt-1">{card.sub}</p>
               </div>
               <div className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center">
@@ -82,6 +107,14 @@ export default async function ShopDashboard() {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Analytics Charts */}
+      <div className="grid grid-cols-1 fm-card p-5">
+        <h2 className="text-sm font-semibold mb-2">Shop Revenue (7d)</h2>
+        <div className="h-[300px]">
+          <RevenueChart data={stats.revenueChartData} />
+        </div>
       </div>
 
       {/* Recent Orders */}

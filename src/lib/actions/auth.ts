@@ -1,7 +1,7 @@
 'use server'
 
 import { redirect } from 'next/navigation'
-import { createClient, createServiceClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 import { getRoleDashboard } from '@/lib/auth'
 import { createClient as createAdminClient } from '@supabase/supabase-js'
 import type { UserAppMetadata } from '@/types/database'
@@ -36,6 +36,59 @@ export async function logout() {
   const supabase = await createClient()
   await supabase.auth.signOut()
   redirect('/login')
+}
+
+// =============================================
+// Change Password (Authenticated users)
+// =============================================
+export async function changePassword(formData: FormData) {
+  const currentPassword = formData.get('current_password') as string
+  const newPassword = formData.get('new_password') as string
+  const confirmPassword = formData.get('confirm_password') as string
+
+  if (!currentPassword || !newPassword || !confirmPassword) {
+    return { error: 'All fields are required' }
+  }
+
+  if (newPassword.length < 6) {
+    return { error: 'New password must be at least 6 characters' }
+  }
+
+  if (newPassword !== confirmPassword) {
+    return { error: 'New passwords do not match' }
+  }
+
+  if (currentPassword === newPassword) {
+    return { error: 'New password must be different from current password' }
+  }
+
+  const supabase = await createClient()
+
+  // Verify current password by attempting sign-in
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user?.email) {
+    return { error: 'Not authenticated' }
+  }
+
+  const { error: verifyError } = await supabase.auth.signInWithPassword({
+    email: user.email,
+    password: currentPassword,
+  })
+
+  if (verifyError) {
+    return { error: 'Current password is incorrect' }
+  }
+
+  // Update password
+  const { error: updateError } = await supabase.auth.updateUser({
+    password: newPassword,
+  })
+
+  if (updateError) {
+    return { error: updateError.message }
+  }
+
+  return { success: 'Password changed successfully' }
 }
 
 // =============================================
@@ -89,8 +142,8 @@ export async function signUp(formData: FormData) {
   }
 
   // Now sign in immediately with the regular client
-  const supabase = await createClient()
-  const { data: session, error: signInError } = await supabase.auth.signInWithPassword({
+  const supabase2 = await createClient()
+  const { data: session, error: signInError } = await supabase2.auth.signInWithPassword({
     email,
     password,
   })

@@ -1,7 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { formatBDT, formatDate } from '@/lib/utils'
 import type { Invoice, Agency } from '@/types/database'
-import { Receipt, Check } from 'lucide-react'
+import { Receipt } from 'lucide-react'
+import { MarkPaidButton } from '@/components/admin/BillingActions'
 
 async function getInvoicesWithAgencies() {
   const supabase = await createClient()
@@ -89,10 +90,7 @@ export default async function BillingPage() {
                     </td>
                     <td className="px-5 py-3 text-right">
                       {inv.status === 'unpaid' && (
-                        <button className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border border-border rounded-md hover:bg-accent transition-colors">
-                          <Check className="h-3 w-3" />
-                          Mark Paid
-                        </button>
+                        <MarkPaidButton invoiceId={inv.id} />
                       )}
                       {inv.status === 'paid' && inv.paid_at && (
                         <span className="text-xs text-muted-foreground">

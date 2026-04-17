@@ -8,6 +8,7 @@ interface ShopInviteProps {
   agencyName: string
   agencyLogo?: string
   shopName: string
+  tempPassword?: string
   loginUrl: string
   setupUrl: string
 }
@@ -16,6 +17,7 @@ export default function ShopInvite({
   agencyName = 'Agency Name',
   agencyLogo,
   shopName = 'My Store',
+  tempPassword,
   loginUrl = 'https://agency.fmanager.com/login',
   setupUrl = 'https://agency.fmanager.com/dashboard',
 }: ShopInviteProps) {
@@ -39,7 +41,8 @@ export default function ShopInvite({
 
           <Section style={card}>
             <Text style={cardLabel}>Getting Started</Text>
-            <Text style={step}>1. Set your password using the link below</Text>
+            {tempPassword && <Text style={step}><strong>Temporary Password:</strong> {tempPassword}</Text>}
+            <Text style={step}>1. Log in and change your password</Text>
             <Text style={step}>2. Add your first product</Text>
             <Text style={step}>3. Set up bKash/Nagad payment</Text>
             <Text style={step}>4. Share your store link on Facebook</Text>

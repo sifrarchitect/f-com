@@ -10,6 +10,7 @@ import {
   Palette,
   CreditCard,
   Receipt,
+  UserCircle,
 } from 'lucide-react'
 import type { AuthUser } from '@/lib/auth'
 
@@ -43,6 +44,7 @@ export default function ShopSidebar({ user, children }: ShopSidebarProps) {
             { label: 'Store', href: '/dashboard/store', icon: <Palette className="w-4 h-4" /> },
             { label: 'Payments', href: '/dashboard/payments', icon: <CreditCard className="w-4 h-4" /> },
             { label: 'Billing', href: '/dashboard/billing', icon: <Receipt className="w-4 h-4" /> },
+            { label: 'Account', href: '/dashboard/settings', icon: <UserCircle className="w-4 h-4" /> },
           ],
         },
       ]}

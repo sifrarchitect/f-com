@@ -4,6 +4,7 @@ import type { Agency } from '@/types/database'
 import Link from 'next/link'
 import { Building2, Plus, Search } from 'lucide-react'
 import AgencyActions from './AgencyActions'
+import AddAgencyButton from './AddAgencyButton'
 
 async function getAgencies() {
   const supabase = await createClient()
@@ -24,13 +25,7 @@ export default async function AgenciesPage() {
           <h1 className="text-2xl font-bold tracking-tight">Agencies</h1>
           <p className="text-sm text-muted-foreground mt-1">{agencies.length} total agencies</p>
         </div>
-        <Link
-          href="#"
-          className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground text-sm font-medium rounded-md hover:bg-primary/90 transition-colors"
-        >
-          <Plus className="h-4 w-4" />
-          Add Agency
-        </Link>
+        <AddAgencyButton />
       </div>
 
       {/* Table */}

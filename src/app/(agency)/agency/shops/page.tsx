@@ -1,10 +1,11 @@
 import { createClient } from '@/lib/supabase/server'
 import { getUser } from '@/lib/auth'
 import { formatDate } from '@/lib/utils'
-import type { Shop } from '@/types/database'
+import type { Shop, AgencyPlan } from '@/types/database'
 import Link from 'next/link'
-import { Store, Plus } from 'lucide-react'
+import { Store } from 'lucide-react'
 import ShopActions from './ShopActions'
+import { AddShopButton } from '@/components/agency/ShopActions'
 
 async function getShops(agencyId: string) {
   const supabase = await createClient()
@@ -16,11 +17,25 @@ async function getShops(agencyId: string) {
   return (data || []) as Shop[]
 }
 
+async function getPlans(agencyId: string) {
+  const supabase = await createClient()
+  const { data } = await supabase
+    .from('agency_plans')
+    .select('*')
+    .eq('agency_id', agencyId)
+    .eq('is_active', true)
+    .order('price', { ascending: true })
+  return (data || []) as AgencyPlan[]
+}
+
 export default async function ShopsPage() {
   const user = await getUser()
   if (!user?.agencyId) return null
 
-  const shops = await getShops(user.agencyId)
+  const [shops, plans] = await Promise.all([
+    getShops(user.agencyId),
+    getPlans(user.agencyId),
+  ])
 
   return (
     <div className="p-6 md:p-8 space-y-6">
@@ -29,10 +44,7 @@ export default async function ShopsPage() {
           <h1 className="text-2xl font-bold tracking-tight">Shops</h1>
           <p className="text-sm text-muted-foreground mt-1">{shops.length} shops managed</p>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground text-sm font-medium rounded-md hover:bg-primary/90 transition-colors">
-          <Plus className="h-4 w-4" />
-          Add Shop
-        </button>
+        <AddShopButton plans={plans} />
       </div>
 
       <div className="fm-card overflow-hidden">

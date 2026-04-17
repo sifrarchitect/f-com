@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     description:
       'White-label f-commerce SaaS with bKash/Nagad payment verification and Steadfast courier integration.',
     type: 'website',
-    locale: 'bn_BD',
+    locale: 'en_US',
   },
 }
 
@@ -39,9 +39,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      translate="no"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} dark h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body suppressHydrationWarning className="min-h-full flex flex-col">
         <TooltipProvider>
           {children}
         </TooltipProvider>

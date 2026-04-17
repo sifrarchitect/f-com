@@ -22,6 +22,7 @@ export default function LoginPage() {
           ? 'Please confirm your email first. Check your inbox for the verification link.'
           : result.error
         )
+        setLoading(false)
       }
     } catch (err: unknown) {
       // NEXT_REDIRECT throws — this means login succeeded and redirect is happening

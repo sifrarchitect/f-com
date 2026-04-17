@@ -96,6 +96,7 @@ export async function sendShopInvite(params: {
   agencyName: string
   agencyLogo?: string
   shopName: string
+  tempPassword?: string
   agencySlug: string
 }) {
   return sendEmail({
@@ -113,6 +114,7 @@ export async function sendShopInvite(params: {
 export async function sendAgencyInvite(params: {
   to: string
   agencyName: string
+  tempPassword?: string // Making it optional for backwards compatibility, but we will pass it
   ownerName?: string
   slug: string
 }) {

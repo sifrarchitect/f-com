@@ -6,6 +6,10 @@ import {
   Building2, Store, ShoppingCart, Receipt,
   TrendingUp, AlertTriangle,
 } from 'lucide-react'
+import DoomsdayButton from '@/components/admin/DoomsdayButton'
+import { AdminRevenueChart } from '@/components/charts/AdminRevenueChart'
+import { AdminAgenciesChart } from '@/components/charts/AdminAgenciesChart'
+import { AnimatedCounter } from '@/components/ui/AnimatedCounter'
 
 async function getStats() {
   const supabase = await createClient()
@@ -26,6 +30,19 @@ async function getStats() {
   const unpaidInvoices = invoiceList.filter((i) => i.status === 'unpaid')
   const unpaidAmount = unpaidInvoices.reduce((sum, i) => sum + (i.amount_bdt || 0), 0)
 
+  // Generate 7-day revenue trend
+  const last7Days = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date()
+    d.setDate(d.getDate() - (6 - i))
+    return { date: d.toISOString().split('T')[0].slice(5), revenue: 0, fullDate: d.toISOString().split('T')[0] }
+  })
+
+  orderList.forEach((o) => {
+    const dateStr = (o.created_at as string).split('T')[0]
+    const day = last7Days.find((d) => d.fullDate === dateStr)
+    if (day) day.revenue += (o.total_price || 0)
+  })
+
   return {
     totalAgencies: agencyList.length,
     activeAgencies: agencyList.filter((a) => a.is_active).length,
@@ -35,6 +52,7 @@ async function getStats() {
     totalRevenue,
     unpaidInvoiceCount: unpaidInvoices.length,
     unpaidAmount,
+    revenueChartData: last7Days,
   }
 }
 
@@ -68,9 +86,9 @@ export default async function AdminDashboard() {
   const kpiCards = [
     { label: 'Total Agencies', value: stats.totalAgencies, sub: `${stats.activeAgencies} active`, icon: Building2, color: 'text-foreground' },
     { label: 'Total Shops', value: stats.totalShops, sub: `${stats.activeShops} active`, icon: Store, color: 'text-foreground' },
-    { label: 'Total Orders', value: stats.totalOrders.toLocaleString(), sub: 'all time', icon: ShoppingCart, color: 'text-foreground' },
-    { label: 'Total Revenue', value: formatBDT(stats.totalRevenue), sub: 'platform-wide', icon: TrendingUp, color: 'text-fm-success' },
-    { label: 'Unpaid Invoices', value: stats.unpaidInvoiceCount, sub: formatBDT(stats.unpaidAmount), icon: Receipt, color: stats.unpaidInvoiceCount > 0 ? 'text-fm-warning' : 'text-foreground' },
+    { label: 'Total Orders', value: stats.totalOrders, sub: 'all time', icon: ShoppingCart, color: 'text-foreground' },
+    { label: 'Total Revenue', value: stats.totalRevenue, sub: 'platform-wide', icon: TrendingUp, color: 'text-fm-success' },
+    { label: 'Unpaid Invoices', value: stats.unpaidAmount, sub: `${stats.unpaidInvoiceCount} total unpaid invoices`, icon: Receipt, color: stats.unpaidInvoiceCount > 0 ? 'text-fm-warning' : 'text-foreground' },
     { label: 'Platform Health', value: stats.activeAgencies > 0 ? 'Healthy' : 'Setup Needed', sub: stats.activeAgencies > 0 ? 'All systems normal' : 'No active agencies', icon: AlertTriangle, color: stats.activeAgencies > 0 ? 'text-fm-success' : 'text-fm-warning' },
   ]
 
@@ -89,7 +107,17 @@ export default async function AdminDashboard() {
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{card.label}</p>
-                <p className={`text-2xl font-bold mt-1 ${card.color}`}>{card.value}</p>
+                <div className={`text-2xl font-bold mt-1 ${card.color}`}>
+                  {typeof card.value === 'number' ? (
+                    <AnimatedCounter 
+                      value={card.value} 
+                      type={card.label === 'Total Revenue' || card.label === 'Unpaid Invoices' ? 'currency' : 'number'}
+                      delay={200}
+                    />
+                  ) : (
+                    card.value
+                  )}
+                </div>
                 <p className="text-xs text-muted-foreground mt-1">{card.sub}</p>
               </div>
               <div className="w-9 h-9 rounded-lg bg-muted flex items-center justify-center">
@@ -98,6 +126,24 @@ export default async function AdminDashboard() {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Analytics Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="fm-card p-5">
+          <h2 className="text-sm font-semibold mb-2">Platform Revenue (7d)</h2>
+          <AdminRevenueChart data={stats.revenueChartData} />
+        </div>
+        <div className="fm-card p-5">
+          <h2 className="text-sm font-semibold mb-2">Top Agencies</h2>
+          <AdminAgenciesChart 
+            data={topAgencies.map((a) => ({ 
+              name: a.name.slice(0, 10), 
+              active: a.is_active ? 1 : 0, 
+              suspended: a.is_active ? 0 : 1 
+            }))} 
+          />
+        </div>
       </div>
 
       {/* Two columns: Recent Orders + Top Agencies */}
@@ -191,6 +237,9 @@ export default async function AdminDashboard() {
           </div>
         </div>
       </div>
+
+      {/* Doomsday Kill Switch */}
+      <DoomsdayButton />
     </div>
   )
 }

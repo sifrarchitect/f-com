@@ -22,6 +22,15 @@ export async function sendEmail({
     from ||
     `${process.env.RESEND_FROM_NAME || 'F-Manager'} <${process.env.RESEND_FROM_EMAIL || 'noreply@fmanager.com'}>`
 
+  // Development bypass: Log emails to terminal if no API key exists
+  if (!process.env.RESEND_API_KEY) {
+    console.log('----------------------------------------------------')
+    console.log(`[LOCAL DEV EMAIL] To: ${to} | Subject: ${subject}`)
+    console.log('React Component Props:', react.props)
+    console.log('----------------------------------------------------')
+    return { data: { id: 'mock-email-id' }, error: null }
+  }
+
   try {
     const { data, error } = await resend.emails.send({
       from: fromAddress,

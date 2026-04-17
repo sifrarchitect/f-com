@@ -88,6 +88,7 @@ export const updateShopSchema = z.object({
   custom_terms: z.string().max(10000).optional().nullable(),
   seo_title: z.string().max(100).optional().nullable(),
   seo_description: z.string().max(300).optional().nullable(),
+  ruxspeed_enabled: z.boolean().optional(),
   is_active: z.boolean().optional(),
 })
 

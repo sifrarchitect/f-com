@@ -3,8 +3,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import { Bell } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
-import { cn } from '@/lib/utils'
-import { timeAgo } from '@/lib/utils'
+import { cn, timeAgo } from '@/lib/utils'
 import type { Notification } from '@/types/database'
 
 interface NotificationBellProps {
@@ -17,17 +16,21 @@ export default function NotificationBell({ userId }: NotificationBellProps) {
   const [open, setOpen] = useState(false)
 
   const fetchNotifications = useCallback(async () => {
-    const supabase = createClient()
-    const { data } = await supabase
-      .from('notifications')
-      .select('*')
-      .eq('user_id', userId)
-      .order('created_at', { ascending: false })
-      .limit(20)
+    try {
+      const supabase = createClient()
+      const { data } = await supabase
+        .from('notifications')
+        .select('*')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false })
+        .limit(20)
 
-    const items = (data || []) as Notification[]
-    setNotifications(items)
-    setUnreadCount(items.filter((n) => !n.is_read).length)
+      const items = (data || []) as Notification[]
+      setNotifications(items)
+      setUnreadCount(items.filter((n) => !n.is_read).length)
+    } catch {
+      // Table may not exist yet — ignore silently
+    }
   }, [userId])
 
   // Initial fetch
@@ -38,8 +41,16 @@ export default function NotificationBell({ userId }: NotificationBellProps) {
   // Realtime subscription
   useEffect(() => {
     const supabase = createClient()
-    const channel = supabase
-      .channel(`notifications:${userId}`)
+    const channelName = `notifs-${userId}`
+    
+    // Clean up any stale channels on fast refresh
+    supabase.getChannels().forEach((ch) => {
+      if (ch.topic === `realtime:${channelName}`) supabase.removeChannel(ch)
+    })
+
+    const channel = supabase.channel(channelName)
+
+    channel
       .on(
         'postgres_changes',
         {
@@ -62,30 +73,38 @@ export default function NotificationBell({ userId }: NotificationBellProps) {
   }, [userId])
 
   const markAllRead = async () => {
-    const supabase = createClient()
-    const unreadIds = notifications.filter((n) => !n.is_read).map((n) => n.id)
-    if (unreadIds.length === 0) return
+    try {
+      const supabase = createClient()
+      const unreadIds = notifications.filter((n) => !n.is_read).map((n) => n.id)
+      if (unreadIds.length === 0) return
 
-    await supabase
-      .from('notifications')
-      .update({ is_read: true } as never)
-      .in('id', unreadIds)
+      await supabase
+        .from('notifications')
+        .update({ is_read: true } as never)
+        .in('id', unreadIds)
 
-    setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true })))
-    setUnreadCount(0)
+      setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true })))
+      setUnreadCount(0)
+    } catch {
+      // Ignore
+    }
   }
 
   const markRead = async (id: string) => {
-    const supabase = createClient()
-    await supabase
-      .from('notifications')
-      .update({ is_read: true } as never)
-      .eq('id', id)
+    try {
+      const supabase = createClient()
+      await supabase
+        .from('notifications')
+        .update({ is_read: true } as never)
+        .eq('id', id)
 
-    setNotifications((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, is_read: true } : n))
-    )
-    setUnreadCount((prev) => Math.max(0, prev - 1))
+      setNotifications((prev) =>
+        prev.map((n) => (n.id === id ? { ...n, is_read: true } : n))
+      )
+      setUnreadCount((prev) => Math.max(0, prev - 1))
+    } catch {
+      // Ignore
+    }
   }
 
   return (

@@ -2,7 +2,8 @@ import { createClient } from '@/lib/supabase/server'
 import { getUser } from '@/lib/auth'
 import { formatBDT } from '@/lib/utils'
 import type { AgencyPlan } from '@/types/database'
-import { Sparkles, Plus, Check } from 'lucide-react'
+import { Sparkles, Check } from 'lucide-react'
+import { CreatePlanButton, PlanActions } from '@/components/agency/PlanActions'
 
 async function getPlans(agencyId: string) {
   const supabase = await createClient()
@@ -27,10 +28,7 @@ export default async function PlansPage() {
           <h1 className="text-2xl font-bold tracking-tight">Plans</h1>
           <p className="text-sm text-muted-foreground mt-1">Set pricing for your sellers</p>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground text-sm font-medium rounded-md hover:bg-primary/90 transition-colors">
-          <Plus className="h-4 w-4" />
-          Create Plan
-        </button>
+        <CreatePlanButton />
       </div>
 
       {plans.length === 0 ? (
@@ -63,9 +61,7 @@ export default async function PlansPage() {
                   ))}
                 </ul>
               )}
-              <button className="w-full py-2 text-sm font-medium border border-border rounded-md hover:bg-accent transition-colors mt-auto">
-                Edit Plan
-              </button>
+              <PlanActions plan={plan} />
             </div>
           ))}
         </div>

@@ -1,11 +1,11 @@
-export default function ShopLoading() {
+import { Loader2 } from 'lucide-react'
+
+export default function Loading() {
   return (
-    <div className="min-h-screen bg-background p-8 animate-pulse">
-      <div className="h-8 w-48 bg-muted rounded mb-6" />
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="h-32 bg-muted rounded" />
-        ))}
+    <div className="flex h-full w-full items-center justify-center p-8 bg-zinc-950 min-h-[50vh]">
+      <div className="flex flex-col items-center gap-4">
+        <Loader2 className="h-8 w-8 animate-spin text-zinc-500" />
+        <p className="text-sm text-zinc-400 animate-pulse">Loading store data...</p>
       </div>
     </div>
   )

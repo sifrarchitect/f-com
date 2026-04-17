@@ -6,6 +6,9 @@ import Link from 'next/link'
 import {
   Store, ShoppingCart, TrendingUp, Receipt, AlertTriangle,
 } from 'lucide-react'
+import { AdminRevenueChart } from '@/components/charts/AdminRevenueChart'
+import { AgencyShopsChart } from '@/components/charts/AgencyShopsChart'
+import { AnimatedCounter } from '@/components/ui/AnimatedCounter'
 
 async function getAgencyStats(agencyId: string) {
   const supabase = await createClient()
@@ -25,6 +28,19 @@ async function getAgencyStats(agencyId: string) {
   const pendingPayments = orders.filter((o) => o.payment_status === 'pending').length
   const latestInvoice = invoices[0] || null
 
+  // Generate 7-day revenue trend
+  const last7Days = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date()
+    d.setDate(d.getDate() - (6 - i))
+    return { date: d.toISOString().split('T')[0].slice(5), revenue: 0, fullDate: d.toISOString().split('T')[0] }
+  })
+
+  orders.forEach((o) => {
+    const dateStr = (o.created_at as string).split('T')[0]
+    const day = last7Days.find((d) => d.fullDate === dateStr)
+    if (day) day.revenue += (o.total_price || 0)
+  })
+
   return {
     totalShops: shops.length,
     activeShops: shops.filter((s) => s.is_active).length,
@@ -33,6 +49,7 @@ async function getAgencyStats(agencyId: string) {
     pendingPayments,
     latestInvoice,
     orders,
+    revenueChartData: last7Days,
   }
 }
 
@@ -44,10 +61,10 @@ export default async function AgencyDashboard() {
 
   const kpiCards = [
     { label: 'Total Shops', value: stats.totalShops, sub: `${stats.activeShops} active`, icon: Store },
-    { label: 'Total Orders', value: stats.totalOrders.toLocaleString(), sub: 'across all shops', icon: ShoppingCart },
-    { label: 'Revenue', value: formatBDT(stats.totalRevenue), sub: 'total earnings', icon: TrendingUp, color: 'text-fm-success' },
+    { label: 'Total Orders', value: stats.totalOrders, sub: 'across all shops', icon: ShoppingCart },
+    { label: 'Revenue', value: stats.totalRevenue, sub: 'total earnings', icon: TrendingUp, color: 'text-fm-success' },
     { label: 'Pending Payments', value: stats.pendingPayments, sub: 'awaiting verification', icon: AlertTriangle, color: stats.pendingPayments > 0 ? 'text-fm-warning' : 'text-foreground' },
-    { label: 'Platform Fee', value: formatBDT(stats.activeShops * 100), sub: `${stats.activeShops} × BDT 100/mo`, icon: Receipt },
+    { label: 'Platform Fee', value: stats.activeShops * 100, sub: `${stats.activeShops} × BDT 100/mo`, icon: Receipt },
   ]
 
   // Recent orders (last 8)
@@ -83,7 +100,17 @@ export default async function AgencyDashboard() {
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{card.label}</p>
-                <p className={`text-2xl font-bold mt-1 ${card.color || 'text-foreground'}`}>{card.value}</p>
+                <div className={`text-2xl font-bold mt-1 ${card.color || 'text-foreground'}`}>
+                  {typeof card.value === 'number' ? (
+                    <AnimatedCounter 
+                      value={card.value} 
+                      type={card.label === 'Revenue' || card.label === 'Platform Fee' ? 'currency' : 'number'}
+                      delay={200}
+                    />
+                  ) : (
+                    card.value
+                  )}
+                </div>
                 <p className="text-xs text-muted-foreground mt-1">{card.sub}</p>
               </div>
               <div className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center">
@@ -92,6 +119,23 @@ export default async function AgencyDashboard() {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Analytics Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 fm-card p-5">
+          <h2 className="text-sm font-semibold mb-2">Agency Revenue (7d)</h2>
+          <AdminRevenueChart data={stats.revenueChartData} />
+        </div>
+        <div className="fm-card p-5">
+          <h2 className="text-sm font-semibold mb-2">Shop Metrics</h2>
+          <AgencyShopsChart 
+            data={[
+              { name: 'Active', value: stats.activeShops, color: '#10b981' }, 
+              { name: 'Inactive', value: stats.totalShops - stats.activeShops, color: '#ef4444' }
+            ]} 
+          />
+        </div>
       </div>
 
       {/* Recent Orders */}

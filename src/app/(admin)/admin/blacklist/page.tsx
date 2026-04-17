@@ -1,7 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { formatDate } from '@/lib/utils'
 import type { CustomerBlacklist } from '@/types/database'
-import { Ban, Plus, Download } from 'lucide-react'
+import { Ban, Download } from 'lucide-react'
+import { AddBlacklistButton, RemoveBlacklistButton } from '@/components/admin/BlacklistActions'
 
 async function getBlacklist() {
   const supabase = await createClient()
@@ -24,14 +25,7 @@ export default async function BlacklistPage() {
           <p className="text-sm text-muted-foreground mt-1">{activeCount} active blocks · {entries.length} total</p>
         </div>
         <div className="flex items-center gap-2">
-          <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium border border-border rounded-md hover:bg-accent transition-colors">
-            <Download className="h-4 w-4" />
-            Export
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground text-sm font-medium rounded-md hover:bg-primary/90 transition-colors">
-            <Plus className="h-4 w-4" />
-            Add Number
-          </button>
+          <AddBlacklistButton />
         </div>
       </div>
 
@@ -45,12 +39,13 @@ export default async function BlacklistPage() {
                 <th className="text-left px-5 py-3 text-xs font-medium text-muted-foreground uppercase tracking-wider">Notes</th>
                 <th className="text-left px-5 py-3 text-xs font-medium text-muted-foreground uppercase tracking-wider">Added</th>
                 <th className="text-left px-5 py-3 text-xs font-medium text-muted-foreground uppercase tracking-wider">Status</th>
+                <th className="text-right px-5 py-3 text-xs font-medium text-muted-foreground uppercase tracking-wider"></th>
               </tr>
             </thead>
             <tbody>
               {entries.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-5 py-16 text-center">
+                  <td colSpan={6} className="px-5 py-16 text-center">
                     <Ban className="h-8 w-8 text-muted-foreground/30 mx-auto mb-3" />
                     <p className="text-muted-foreground text-sm">No blacklisted numbers</p>
                     <p className="text-muted-foreground/60 text-xs mt-1">Blocked customer phone numbers will appear here</p>
@@ -67,6 +62,9 @@ export default async function BlacklistPage() {
                       <span className={`inline-flex px-2 py-0.5 rounded text-xs font-medium ${entry.is_active ? 'fm-badge-destructive' : 'fm-badge-neutral'}`}>
                         {entry.is_active ? 'Blocked' : 'Removed'}
                       </span>
+                    </td>
+                    <td className="px-5 py-3 text-right">
+                      {entry.is_active && <RemoveBlacklistButton id={entry.id} />}
                     </td>
                   </tr>
                 ))

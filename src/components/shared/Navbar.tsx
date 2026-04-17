@@ -54,7 +54,7 @@ export default function Navbar() {
 
         <div className="hidden md:flex items-center gap-8">
           {NAV_LINKS.map((link) => (
-            <a key={link.href} href={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <a suppressHydrationWarning key={link.href} href={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               {link.label}
             </a>
           ))}

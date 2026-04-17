@@ -4,7 +4,8 @@ import { formatBDT, formatDate } from '@/lib/utils'
 import type { Order } from '@/types/database'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, MapPin, Phone, CreditCard, Truck, User, Ban, Printer } from 'lucide-react'
+import { ArrowLeft, MapPin, Phone, CreditCard, Truck, User } from 'lucide-react'
+import { SteadfastButton, CancelOrderButton, BlacklistButton, PrintSlipButton } from '@/components/shop/OrderActions'
 
 async function getOrder(orderId: string, shopId: string) {
   const supabase = await createClient()
@@ -25,6 +26,9 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
   const order = await getOrder(id, user.shopId)
   if (!order) notFound()
 
+  const canSendToSteadfast = order.payment_status === 'verified' && (order.delivery_status === 'pending' || order.delivery_status === 'processing') && !order.steadfast_consignment_id
+  const canCancel = order.delivery_status !== 'delivered' && order.delivery_status !== 'cancelled'
+
   return (
     <div className="p-6 md:p-8 space-y-6">
       <Link href="/dashboard/orders" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
@@ -37,18 +41,10 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
           <h1 className="text-2xl font-bold tracking-tight font-mono">{order.order_number}</h1>
           <p className="text-sm text-muted-foreground mt-1">{formatDate(order.created_at)}</p>
         </div>
-        <div className="flex items-center gap-2">
-          <button className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border border-border rounded-md hover:bg-accent transition-colors">
-            <Printer className="h-3.5 w-3.5" /> Print Slip
-          </button>
-          <button className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border border-border rounded-md hover:bg-accent transition-colors">
-            <Truck className="h-3.5 w-3.5" /> Send to Steadfast
-          </button>
-          {order.delivery_status !== 'cancelled' && (
-            <button className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-destructive border border-destructive/20 rounded-md hover:bg-destructive/10 transition-colors">
-              Cancel Order
-            </button>
-          )}
+        <div className="flex items-center gap-2 flex-wrap">
+          <PrintSlipButton />
+          {canSendToSteadfast && <SteadfastButton orderId={order.id} />}
+          {canCancel && <CancelOrderButton orderId={order.id} />}
         </div>
       </div>
 
@@ -103,9 +99,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
             <p>{order.customer_address}</p>
           </div>
         </div>
-        <button className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-destructive border border-destructive/20 rounded-md hover:bg-destructive/10 transition-colors">
-          <Ban className="h-3.5 w-3.5" /> Blacklist Customer
-        </button>
+        <BlacklistButton phone={order.customer_phone} customerName={order.customer_name} />
       </div>
 
       {/* Cancellation */}
