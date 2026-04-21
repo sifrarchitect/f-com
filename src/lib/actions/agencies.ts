@@ -62,10 +62,10 @@ export async function createAgency(formData: FormData): Promise<ActionResult<{ i
   const agencyId = (agency as { id: string }).id
 
   // 2. Create/invite auth user with agency_owner role
-  const tempPassword = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2)
+  const password = (formData.get('password') as string) || Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2)
   const { data: authUser, error: authError } = await adminClient.auth.admin.createUser({
     email: parsed.data.owner_email,
-    password: tempPassword,
+    password,
     email_confirm: true,
     app_metadata: { role: 'agency_owner', agency_id: agencyId },
   })
@@ -102,7 +102,7 @@ export async function createAgency(formData: FormData): Promise<ActionResult<{ i
     await sendAgencyInvite({
       to: parsed.data.owner_email,
       agencyName: parsed.data.name,
-      tempPassword,
+      tempPassword: password,
       ownerName: parsed.data.owner_name,
       slug: parsed.data.slug,
     })

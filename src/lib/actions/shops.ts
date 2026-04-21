@@ -76,10 +76,10 @@ export async function createShop(formData: FormData): Promise<ActionResult<{ id:
   const shopId = (shop as { id: string }).id
 
   // 3. Create/update auth user with shop_owner role
-  const tempPassword = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2)
+  const password = (formData.get('password') as string) || Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2)
   const { data: authUser, error: authError } = await adminClient.auth.admin.createUser({
     email: parsed.data.owner_email,
-    password: tempPassword,
+    password,
     email_confirm: true,
     app_metadata: { role: 'shop_owner', shop_id: shopId, agency_id: user.agencyId },
   })
@@ -116,7 +116,7 @@ export async function createShop(formData: FormData): Promise<ActionResult<{ id:
       agencyName: ag.name,
       agencyLogo: ag.logo_url || undefined,
       shopName: parsed.data.name,
-      tempPassword,
+      tempPassword: password,
       agencySlug: ag.slug,
     })
   } catch { /* ignore */ }

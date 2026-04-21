@@ -89,9 +89,9 @@ export default function LoginPage() {
           </div>
 
           <div className="mb-8">
-            <h1 className="text-2xl font-bold tracking-tight">Welcome back</h1>
+            <h1 className="text-2xl font-bold tracking-tight">Sign in</h1>
             <p className="text-sm text-muted-foreground mt-1.5">
-              Sign in to your account to continue
+              Use the credentials provided by your admin
             </p>
           </div>
 
@@ -120,11 +120,9 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <div className="flex items-center justify-between">
-                <label htmlFor="password" className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  Password
-                </label>
-              </div>
+              <label htmlFor="password" className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                Password
+              </label>
               <input
                 id="password"
                 name="password"
@@ -156,15 +154,11 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <div className="mt-8 pt-6 border-t border-border/50 text-center">
-            <p className="text-sm text-muted-foreground">
-              Don&apos;t have an account?{' '}
-              <Link
-                href="/signup"
-                className="text-foreground font-medium hover:underline underline-offset-4"
-              >
-                Create account
-              </Link>
+          {/* Role hint */}
+          <div className="mt-8 pt-6 border-t border-border/50">
+            <p className="text-xs text-muted-foreground/60 text-center leading-relaxed">
+              You&apos;ll be redirected automatically to your dashboard based on your role
+              (Admin, Agency Owner, or Shop Owner).
             </p>
           </div>
         </div>
