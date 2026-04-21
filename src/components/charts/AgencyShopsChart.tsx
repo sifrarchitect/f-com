@@ -42,7 +42,7 @@ export function AgencyShopsChart({ data }: ShopsChartProps) {
   }
 
   return (
-    <div className="h-[300px] w-full pt-4">
+    <div className="h-[300px] w-full pt-4" style={{ minWidth: 0 }}>
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Tooltip content={<CustomTooltip />} cursor={{ fill: 'transparent' }} />

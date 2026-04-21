@@ -33,6 +33,7 @@ export const createAgencySchema = z.object({
   owner_name: z.string().min(2).max(100).optional(),
   plan_limit: z.number().int().min(1).max(10000).default(100),
   notes: z.string().max(500).optional(),
+  password: z.string().min(6, 'Password must be at least 6 characters').max(72).optional(),
 })
 
 export const updateAgencySchema = z.object({

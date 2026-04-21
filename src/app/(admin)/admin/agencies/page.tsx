@@ -2,9 +2,11 @@ import { createClient } from '@/lib/supabase/server'
 import { formatDate } from '@/lib/utils'
 import type { Agency } from '@/types/database'
 import Link from 'next/link'
-import { Building2, Plus, Search } from 'lucide-react'
+import { Building2 } from 'lucide-react'
 import AgencyActions from './AgencyActions'
 import AddAgencyButton from './AddAgencyButton'
+
+export const dynamic = 'force-dynamic'
 
 async function getAgencies() {
   const supabase = await createClient()

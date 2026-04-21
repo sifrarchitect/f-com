@@ -51,7 +51,7 @@ export function AdminAgenciesChart({ data }: AgenciesChartProps) {
   }
 
   return (
-    <div className="h-[300px] w-full pt-4">
+    <div className="h-[300px] w-full pt-4" style={{ minWidth: 0 }}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} margin={{ top: 5, right: 0, left: -20, bottom: 0 }} barSize={12}>
           <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#27272a" />

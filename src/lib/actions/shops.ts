@@ -20,6 +20,11 @@ function generateSecretKey(): string {
 export async function createShop(formData: FormData): Promise<ActionResult<{ id: string }>> {
   const user = await requireRole('agency_owner')
 
+  // Guard: service role key is required for admin user creation
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    return { data: null, error: 'Server configuration error: SUPABASE_SERVICE_ROLE_KEY is not set. Add it to Vercel environment variables.' }
+  }
+
   const raw = {
     name: formData.get('name') as string,
     slug: formData.get('slug') as string,
